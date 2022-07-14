@@ -123,11 +123,11 @@ func NewPodEventer(uuid uuid.UUID, cfg *conf.C, client k8s.Interface, publish fu
 	}
 
 	watcher.AddEventHandler(p)
-
-	if nodeWatcher != nil && (config.Hints.Enabled() || metaConf.Node.Enabled()) {
-		updater := kubernetes.NewNodePodUpdater(p.unlockedUpdate, watcher.Store(), &p.crossUpdate)
-		nodeWatcher.AddEventHandler(updater)
-	}
+// This thing generates a node stat event every 10s, which leads to restart all harvesters on node
+//	if nodeWatcher != nil && (config.Hints.Enabled() || metaConf.Node.Enabled()) {
+//		updater := kubernetes.NewNodePodUpdater(p.unlockedUpdate, watcher.Store(), &p.crossUpdate)
+//		nodeWatcher.AddEventHandler(updater)
+//	}
 
 	if namespaceWatcher != nil && (config.Hints.Enabled() || metaConf.Namespace.Enabled()) {
 		updater := kubernetes.NewNamespacePodUpdater(p.unlockedUpdate, watcher.Store(), &p.crossUpdate)
